@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1 (Python 3.9.6 on win32)" generated="20210725 02:42:03.696" rpa="false" schemaversion="2">
+<suite id="s1" name="Tests" source="C:\husby\Automation\Tests.robot">
+<test id="s1-t1" name="Test connect nodes">
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>connect node</arg>
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="connect node" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>connectnode</arg>
+<arg>${baseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210725 02:42:03.919" level="INFO">Creating Session using : alias=connectnode, url=http://192.168.1.12:105/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210725 02:42:03.919" endtime="20210725 02:42:03.919"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${connect_node}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.919" level="INFO">${API} = connect_node</msg>
+<status status="PASS" starttime="20210725 02:42:03.919" endtime="20210725 02:42:03.919"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.920" level="INFO">${Params} = {'from': 'A', 'to': 'B'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.919" endtime="20210725 02:42:03.920"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.933" level="INFO">GET Request : url=http://192.168.1.12:105/connect_node?from=A&amp;to=B (redirected) 
+ path_url=/connect_node?from=A&amp;to=B 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.933" level="INFO">GET Response : url=http://192.168.1.12:105/connect_node/?from=A&amp;to=B 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"message":"connected success"}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.933" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.920" endtime="20210725 02:42:03.933"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.935" level="INFO">&amp;{ResponseData} = { Body={'message': 'connected success'} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.934" endtime="20210725 02:42:03.935"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.935" level="INFO">{'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.935" endtime="20210725 02:42:03.935"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.918" endtime="20210725 02:42:03.935"/>
+</kw>
+<msg timestamp="20210725 02:42:03.935" level="INFO">${Response} = {'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.918" endtime="20210725 02:42:03.935"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Response Body Contains Exact Value</arg>
+<arg>${Response.Body['message']}</arg>
+<arg>connected success</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Response Body Contains Exact Value" library="Common">
+<arg>${Response.Body['message']}</arg>
+<arg>connected success</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ResponseBodyWithKey}'</arg>
+<arg>'${ExpectedValue}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:03.937" endtime="20210725 02:42:03.937"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.936" endtime="20210725 02:42:03.937"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.936" endtime="20210725 02:42:03.937"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Status Code Is Correct</arg>
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Status Code Is Correct" library="Common">
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ActualStatusCode}'</arg>
+<arg>'${ExpectedStatusCode}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:03.938" endtime="20210725 02:42:03.938"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.937" endtime="20210725 02:42:03.938"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.937" endtime="20210725 02:42:03.938"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.918" endtime="20210725 02:42:03.939"/>
+</test>
+<test id="s1-t2" name="Test get path between the first 2 points">
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>connect node</arg>
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="connect node" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>connectnode</arg>
+<arg>${baseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210725 02:42:03.939" level="INFO">Creating Session using : alias=connectnode, url=http://192.168.1.12:105/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210725 02:42:03.939" endtime="20210725 02:42:03.940"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${connect_node}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.940" level="INFO">${API} = connect_node</msg>
+<status status="PASS" starttime="20210725 02:42:03.940" endtime="20210725 02:42:03.940"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.940" level="INFO">${Params} = {'from': 'A', 'to': 'B'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.940" endtime="20210725 02:42:03.940"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.947" level="INFO">GET Request : url=http://192.168.1.12:105/connect_node?from=A&amp;to=B (redirected) 
+ path_url=/connect_node?from=A&amp;to=B 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.947" level="INFO">GET Response : url=http://192.168.1.12:105/connect_node/?from=A&amp;to=B 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"message":"connected success"}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.947" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.940" endtime="20210725 02:42:03.947"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.950" level="INFO">&amp;{ResponseData} = { Body={'message': 'connected success'} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.947" endtime="20210725 02:42:03.950"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.950" level="INFO">{'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.950" endtime="20210725 02:42:03.950"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.939" endtime="20210725 02:42:03.950"/>
+</kw>
+<msg timestamp="20210725 02:42:03.950" level="INFO">${Response} = {'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.939" endtime="20210725 02:42:03.950"/>
+</kw>
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>get path</arg>
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="get path" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${get_path}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.951" level="INFO">${API} = get_shortest_path</msg>
+<status status="PASS" starttime="20210725 02:42:03.951" endtime="20210725 02:42:03.951"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.952" level="INFO">${Params} = {'from': 'A', 'to': 'B'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.951" endtime="20210725 02:42:03.952"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.958" level="INFO">GET Request : url=http://192.168.1.12:105/get_shortest_path?from=A&amp;to=B (redirected) 
+ path_url=/get_shortest_path?from=A&amp;to=B 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.958" level="INFO">GET Response : url=http://192.168.1.12:105/get_shortest_path/?from=A&amp;to=B 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '28', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"shortest-path":["A","B"]}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.958" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.952" endtime="20210725 02:42:03.958"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.959" level="INFO">&amp;{ResponseData} = { Body={'shortest-path': ['A', 'B']} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.958" endtime="20210725 02:42:03.959"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.960" level="INFO">{'Body': {'shortest-path': ['A', 'B']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.959" endtime="20210725 02:42:03.960"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.951" endtime="20210725 02:42:03.960"/>
+</kw>
+<msg timestamp="20210725 02:42:03.960" level="INFO">${Response} = {'Body': {'shortest-path': ['A', 'B']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.951" endtime="20210725 02:42:03.960"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Response Body Contains Exact Value</arg>
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'B']</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Response Body Contains Exact Value" library="Common">
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'B']</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ResponseBodyWithKey}'</arg>
+<arg>'${ExpectedValue}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:03.961" endtime="20210725 02:42:03.961"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.960" endtime="20210725 02:42:03.961"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.960" endtime="20210725 02:42:03.961"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Status Code Is Correct</arg>
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Status Code Is Correct" library="Common">
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ActualStatusCode}'</arg>
+<arg>'${ExpectedStatusCode}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:03.962" endtime="20210725 02:42:03.963"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.962" endtime="20210725 02:42:03.963"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.962" endtime="20210725 02:42:03.963"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.939" endtime="20210725 02:42:03.963"/>
+</test>
+<test id="s1-t3" name="Test get the shortest path between 3 points">
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>connect node</arg>
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="connect node" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_B}</arg>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>connectnode</arg>
+<arg>${baseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210725 02:42:03.965" level="INFO">Creating Session using : alias=connectnode, url=http://192.168.1.12:105/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210725 02:42:03.965" endtime="20210725 02:42:03.965"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${connect_node}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.966" level="INFO">${API} = connect_node</msg>
+<status status="PASS" starttime="20210725 02:42:03.965" endtime="20210725 02:42:03.966"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.966" level="INFO">${Params} = {'from': 'A', 'to': 'B'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.966" endtime="20210725 02:42:03.966"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.973" level="INFO">GET Request : url=http://192.168.1.12:105/connect_node?from=A&amp;to=B (redirected) 
+ path_url=/connect_node?from=A&amp;to=B 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.973" level="INFO">GET Response : url=http://192.168.1.12:105/connect_node/?from=A&amp;to=B 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"message":"connected success"}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.973" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.966" endtime="20210725 02:42:03.973"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.974" level="INFO">&amp;{ResponseData} = { Body={'message': 'connected success'} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.973" endtime="20210725 02:42:03.974"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.975" level="INFO">{'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.974" endtime="20210725 02:42:03.975"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.964" endtime="20210725 02:42:03.975"/>
+</kw>
+<msg timestamp="20210725 02:42:03.975" level="INFO">${Response} = {'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.964" endtime="20210725 02:42:03.975"/>
+</kw>
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>connect node</arg>
+<arg>${point_B}</arg>
+<arg>${point_C}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="connect node" library="Confi">
+<arg>${point_B}</arg>
+<arg>${point_C}</arg>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>connectnode</arg>
+<arg>${baseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210725 02:42:03.976" level="INFO">Creating Session using : alias=connectnode, url=http://192.168.1.12:105/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210725 02:42:03.976" endtime="20210725 02:42:03.976"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${connect_node}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.976" level="INFO">${API} = connect_node</msg>
+<status status="PASS" starttime="20210725 02:42:03.976" endtime="20210725 02:42:03.976"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.977" level="INFO">${Params} = {'from': 'B', 'to': 'C'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.976" endtime="20210725 02:42:03.977"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.983" level="INFO">GET Request : url=http://192.168.1.12:105/connect_node?from=B&amp;to=C (redirected) 
+ path_url=/connect_node?from=B&amp;to=C 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.984" level="INFO">GET Response : url=http://192.168.1.12:105/connect_node/?from=B&amp;to=C 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"message":"connected success"}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.984" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.977" endtime="20210725 02:42:03.984"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.985" level="INFO">&amp;{ResponseData} = { Body={'message': 'connected success'} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.984" endtime="20210725 02:42:03.985"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.985" level="INFO">{'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.985" endtime="20210725 02:42:03.985"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.975" endtime="20210725 02:42:03.986"/>
+</kw>
+<msg timestamp="20210725 02:42:03.986" level="INFO">${Response} = {'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.975" endtime="20210725 02:42:03.986"/>
+</kw>
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>get path</arg>
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="get path" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${get_path}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:03.987" level="INFO">${API} = get_shortest_path</msg>
+<status status="PASS" starttime="20210725 02:42:03.986" endtime="20210725 02:42:03.987"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.987" level="INFO">${Params} = {'from': 'A', 'to': 'C'}</msg>
+<status status="PASS" starttime="20210725 02:42:03.987" endtime="20210725 02:42:03.987"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:03.995" level="INFO">GET Request : url=http://192.168.1.12:105/get_shortest_path?from=A&amp;to=C (redirected) 
+ path_url=/get_shortest_path?from=A&amp;to=C 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:03.995" level="INFO">GET Response : url=http://192.168.1.12:105/get_shortest_path/?from=A&amp;to=C 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:03 GMT'} 
+ body={"shortest-path":["A","B","C"]}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:03.995" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:03.987" endtime="20210725 02:42:03.995"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:03.997" level="INFO">&amp;{ResponseData} = { Body={'shortest-path': ['A', 'B', 'C']} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:03.996" endtime="20210725 02:42:03.997"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:03.997" level="INFO">{'Body': {'shortest-path': ['A', 'B', 'C']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.997" endtime="20210725 02:42:03.997"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.986" endtime="20210725 02:42:03.997"/>
+</kw>
+<msg timestamp="20210725 02:42:03.998" level="INFO">${Response} = {'Body': {'shortest-path': ['A', 'B', 'C']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:03.986" endtime="20210725 02:42:03.998"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Response Body Contains Exact Value</arg>
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'B', 'C']</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Response Body Contains Exact Value" library="Common">
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'B', 'C']</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ResponseBodyWithKey}'</arg>
+<arg>'${ExpectedValue}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:03.999" endtime="20210725 02:42:03.999"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.998" endtime="20210725 02:42:03.999"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.998" endtime="20210725 02:42:03.999"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Status Code Is Correct</arg>
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Status Code Is Correct" library="Common">
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ActualStatusCode}'</arg>
+<arg>'${ExpectedStatusCode}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:04.001" endtime="20210725 02:42:04.001"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.000" endtime="20210725 02:42:04.001"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.999" endtime="20210725 02:42:04.001"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:03.964" endtime="20210725 02:42:04.001"/>
+</test>
+<test id="s1-t4" name="Test get path between the last 2 points">
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>connect node</arg>
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="connect node" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>connectnode</arg>
+<arg>${baseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210725 02:42:04.004" level="INFO">Creating Session using : alias=connectnode, url=http://192.168.1.12:105/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210725 02:42:04.004" endtime="20210725 02:42:04.004"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${connect_node}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:04.004" level="INFO">${API} = connect_node</msg>
+<status status="PASS" starttime="20210725 02:42:04.004" endtime="20210725 02:42:04.004"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:04.005" level="INFO">${Params} = {'from': 'A', 'to': 'C'}</msg>
+<status status="PASS" starttime="20210725 02:42:04.004" endtime="20210725 02:42:04.005"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:04.013" level="INFO">GET Request : url=http://192.168.1.12:105/connect_node?from=A&amp;to=C (redirected) 
+ path_url=/connect_node?from=A&amp;to=C 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:04.014" level="INFO">GET Response : url=http://192.168.1.12:105/connect_node/?from=A&amp;to=C 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '32', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:04 GMT'} 
+ body={"message":"connected success"}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:04.014" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:04.005" endtime="20210725 02:42:04.014"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:04.015" level="INFO">&amp;{ResponseData} = { Body={'message': 'connected success'} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:04.014" endtime="20210725 02:42:04.015"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:04.016" level="INFO">{'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:04.015" endtime="20210725 02:42:04.016"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.003" endtime="20210725 02:42:04.016"/>
+</kw>
+<msg timestamp="20210725 02:42:04.016" level="INFO">${Response} = {'Body': {'message': 'connected success'}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:04.003" endtime="20210725 02:42:04.016"/>
+</kw>
+<kw name="Run Keyword" library="BuiltIn">
+<var>${Response}</var>
+<arg>get path</arg>
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="get path" library="Confi">
+<arg>${point_A}</arg>
+<arg>${point_C}</arg>
+<kw name="Catenate" library="BuiltIn">
+<var>${API}</var>
+<arg>${get_path}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210725 02:42:04.017" level="INFO">${API} = get_shortest_path</msg>
+<status status="PASS" starttime="20210725 02:42:04.017" endtime="20210725 02:42:04.017"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Params}</var>
+<arg>from=${pointA}</arg>
+<arg>to=${pointB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:04.017" level="INFO">${Params} = {'from': 'A', 'to': 'C'}</msg>
+<status status="PASS" starttime="20210725 02:42:04.017" endtime="20210725 02:42:04.017"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>connectnode</arg>
+<arg>${API}</arg>
+<arg>params=${Params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210725 02:42:04.026" level="INFO">GET Request : url=http://192.168.1.12:105/get_shortest_path?from=A&amp;to=C (redirected) 
+ path_url=/get_shortest_path?from=A&amp;to=C 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210725 02:42:04.026" level="INFO">GET Response : url=http://192.168.1.12:105/get_shortest_path/?from=A&amp;to=C 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json', 'Content-Length': '28', 'Server': 'Werkzeug/2.0.1 Python/3.9.6', 'Date': 'Sun, 25 Jul 2021 00:42:04 GMT'} 
+ body={"shortest-path":["A","C"]}
+ 
+ </msg>
+<msg timestamp="20210725 02:42:04.026" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210725 02:42:04.018" endtime="20210725 02:42:04.026"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{ResponseData}</var>
+<arg>Body=${response.json()}</arg>
+<arg>StatusCode=${response.status_code}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210725 02:42:04.028" level="INFO">&amp;{ResponseData} = { Body={'shortest-path': ['A', 'C']} | StatusCode=200 }</msg>
+<status status="PASS" starttime="20210725 02:42:04.026" endtime="20210725 02:42:04.028"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ResponseData}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210725 02:42:04.028" level="INFO">{'Body': {'shortest-path': ['A', 'C']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:04.028" endtime="20210725 02:42:04.028"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.016" endtime="20210725 02:42:04.028"/>
+</kw>
+<msg timestamp="20210725 02:42:04.028" level="INFO">${Response} = {'Body': {'shortest-path': ['A', 'C']}, 'StatusCode': 200}</msg>
+<status status="PASS" starttime="20210725 02:42:04.016" endtime="20210725 02:42:04.028"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Response Body Contains Exact Value</arg>
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'C']</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Response Body Contains Exact Value" library="Common">
+<arg>${Response.Body['shortest-path']}</arg>
+<arg>['A', 'C']</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ResponseBodyWithKey}'</arg>
+<arg>'${ExpectedValue}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:04.030" endtime="20210725 02:42:04.030"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.029" endtime="20210725 02:42:04.030"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.029" endtime="20210725 02:42:04.030"/>
+</kw>
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<arg>Assert Status Code Is Correct</arg>
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<kw name="Assert Status Code Is Correct" library="Common">
+<arg>${Response.StatusCode}</arg>
+<arg>200</arg>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>'${ActualStatusCode}'</arg>
+<arg>'${ExpectedStatusCode}'</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20210725 02:42:04.031" endtime="20210725 02:42:04.032"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.031" endtime="20210725 02:42:04.032"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.030" endtime="20210725 02:42:04.032"/>
+</kw>
+<status status="PASS" starttime="20210725 02:42:04.002" endtime="20210725 02:42:04.032"/>
+</test>
+<status status="PASS" starttime="20210725 02:42:03.697" endtime="20210725 02:42:04.033"/>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20210725 02:42:03.784" level="ERROR">Error in file 'C:\husby\Automation\Tests.robot' on line 3: Importing library 'DebugUiLibrary' failed: ModuleNotFoundError: No module named 'DebugUiLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  D:\python\Scripts\robot.exe
+  d:\python\python39.zip
+  d:\python\DLLs
+  d:\python\lib
+  d:\python
+  d:\python\lib\site-packages</msg>
+<msg timestamp="20210725 02:42:03.786" level="ERROR">Error in file 'C:\husby\Automation\Tests.robot' on line 4: Importing library 'httpLibrary' failed: ModuleNotFoundError: No module named 'httpLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  D:\python\Scripts\robot.exe
+  d:\python\python39.zip
+  d:\python\DLLs
+  d:\python\lib
+  d:\python
+  d:\python\lib\site-packages</msg>
+<msg timestamp="20210725 02:42:03.903" level="ERROR">Error in file 'C:\husby\Automation\Tests.robot' on line 6: Importing library 'FakerLibrary' failed: ModuleNotFoundError: No module named 'FakerLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  D:\python\Scripts\robot.exe
+  d:\python\python39.zip
+  d:\python\DLLs
+  d:\python\lib
+  d:\python
+  d:\python\lib\site-packages</msg>
+<msg timestamp="20210725 02:42:03.916" level="ERROR">Error in file 'C:\husby\Automation\Confi.robot' on line 4: Importing library 'httpLibrary' failed: ModuleNotFoundError: No module named 'httpLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  D:\python\Scripts\robot.exe
+  d:\python\python39.zip
+  d:\python\DLLs
+  d:\python\lib
+  d:\python
+  d:\python\lib\site-packages</msg>
+</errors>
+</robot>
